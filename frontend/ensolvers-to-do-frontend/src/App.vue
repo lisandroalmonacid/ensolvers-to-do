@@ -36,9 +36,9 @@ export default {
     addToDo(toDoLabel) {
       let idObj = {id:uniqueId('todo-'), label: toDoLabel, done: false};
       this.ToDoItems.push(idObj);
-      let params = {id: idObj.id, 
-                    title: idObj.label, 
-                    done: false};
+      let params = {'id': idObj.id, 
+                    'title': idObj.label, 
+                    'done': false};
 
       axios.post('http://127.0.0.1:8000/apis/v1/', params)
 
@@ -46,6 +46,11 @@ export default {
     updateDoneStatus(toDoId) {
       const toDoToUpdate = this.ToDoItems.find(item => item.id === toDoId)
       toDoToUpdate.done = !toDoToUpdate.done
+      let params = {'id': toDoToUpdate.id, 
+                    'title': toDoToUpdate.label, 
+                    'done': toDoToUpdate.done};
+
+      axios.post('http://127.0.0.1:8000/apis/v1/', params)
     },
     deleteToDo(toDoId) {
       const itemIndex = this.ToDoItems.findIndex(item => item.id === toDoId);
@@ -54,13 +59,19 @@ export default {
     editToDo(toDoId, newLabel) {
       const toDoToEdit = this.ToDoItems.find(item => item.id === toDoId);
       toDoToEdit.label = newLabel;
+      let params = {'id': toDoToEdit.id, 
+                    'title': toDoToEdit.label, 
+                    'done': toDoToEdit.done};
+
+      axios.post('http://127.0.0.1:8000/apis/v1/', params)
     },
   },
   async beforeMount(){
       try {
         const response = await axios.get('http://127.0.0.1:8000/apis/v1/');
-        for (let i = 0; i < response.data.length; i++)
-          this.ToDoItems.push(response.data[i]);
+        let responseJson = JSON.parse(response.data);
+        for (let i = 0; i < responseJson.length; i++)
+          this.ToDoItems.push(responseJson[i]);
       } catch (error) {
           console.log(error);
       }
