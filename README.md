@@ -6,3 +6,9 @@ Dependencias necesarias para correr la página web:
   -django: 3.2.11
   -django-cors-headers: 3.10.1
   -djangorestframework: 3.11.2
+
+Para montar la página web:
+
+1. clonar el proyecto
+2. ir al directorio /frontend/ensolvers-to-do-frontend y correr el comando: npm run serve
+3. ir al directorio /backend/ensolvers-to-do-api/config y correr el comando: python manage.py runserver (en otra consola)
