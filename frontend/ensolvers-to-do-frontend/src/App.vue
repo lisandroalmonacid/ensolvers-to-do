@@ -18,7 +18,6 @@
 <script>
 import ToDoItem from './components/ToDoItem.vue';
 import ToDoForm from './components/ToDoForm';
-import uniqueId from 'lodash.uniqueid';
 import axios from 'axios';
 
 export default {
@@ -33,45 +32,54 @@ export default {
     };
   },
   methods: {
-    addToDo(toDoLabel) {
-      let idObj = {id:uniqueId('todo-'), label: toDoLabel, done: false};
-      this.ToDoItems.push(idObj);
-      let params = {'id': idObj.id, 
-                    'title': idObj.label, 
-                    'done': false};
-
-      axios.post('http://127.0.0.1:8000/apis/v1/', params)
+    async addToDo(toDoLabel) {
+      let params = {'label': toDoLabel};
+      let response = await axios.post('http://127.0.0.1:3000/todo', params);
+      let responseItem = response.data;
+      let newItem = {
+        'id': responseItem.id,
+        'label': responseItem.label,
+        'done': responseItem.done
+        }
+      this.ToDoItems.push(newItem);
 
     }, 
     updateDoneStatus(toDoId) {
       const toDoToUpdate = this.ToDoItems.find(item => item.id === toDoId)
       toDoToUpdate.done = !toDoToUpdate.done
       let params = {'id': toDoToUpdate.id, 
-                    'title': toDoToUpdate.label, 
+                    'label': toDoToUpdate.label, 
                     'done': toDoToUpdate.done};
 
-      axios.post('http://127.0.0.1:8000/apis/v1/', params)
+      axios.put('http://127.0.0.1:3000/todo/' + toDoId, params);
     },
     deleteToDo(toDoId) {
       const itemIndex = this.ToDoItems.findIndex(item => item.id === toDoId);
       this.ToDoItems.splice(itemIndex, 1);
+      axios.delete('http://127.0.0.1:3000/todo/' + toDoId);
     },
     editToDo(toDoId, newLabel) {
       const toDoToEdit = this.ToDoItems.find(item => item.id === toDoId);
       toDoToEdit.label = newLabel;
       let params = {'id': toDoToEdit.id, 
-                    'title': toDoToEdit.label, 
+                    'label': toDoToEdit.label, 
                     'done': toDoToEdit.done};
 
-      axios.post('http://127.0.0.1:8000/apis/v1/', params)
+      axios.put('http://127.0.0.1:3000/todo/' + toDoId, params);
     },
   },
   async beforeMount(){
       try {
-        const response = await axios.get('http://127.0.0.1:8000/apis/v1/');
-        let responseJson = JSON.parse(response.data);
-        for (let i = 0; i < responseJson.length; i++)
-          this.ToDoItems.push(responseJson[i]);
+        const response = await axios.get('http://127.0.0.1:3000/todo');
+        for (let i = 0; i < response.data.length; i++) {
+          let responseItem = response.data[i];
+          let newItem = {
+            'id': responseItem.id,
+            'label': responseItem.label,
+            'done': responseItem.done
+          }
+          this.ToDoItems.push(newItem);
+        }
       } catch (error) {
           console.log(error);
       }
