@@ -1,16 +1,13 @@
 Dependencias necesarias para correr la página web:
 
 -Node js: 16.13.2
+-NPM: 8.1.2
 -Vue js: 4.5.15
+-Nest js: 8.2.0
 
-Para montar la página web:
+El archivo run-app.sh debería encargarse de instalar todas las dependencias.
 
-1. clonar el proyecto
-2. ir al directorio /frontend/ensolvers-to-do-frontend/ y correr el comando: 
+Para montar la página web, ir al directorio principal del proyecto y correr los siguientes comandos:
 
-npm run serve
-
-3. (en otra consola) ir al directorio /todo-backend/ y correr los comandos: 
- 
-npm i -g @nestjs/clinest new
-npm run start
+chmod -x ./run-app.sh
+./run-app.sh
