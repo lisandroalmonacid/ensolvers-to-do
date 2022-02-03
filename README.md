@@ -9,5 +9,5 @@ El archivo run-app.sh debería encargarse de instalar todas las dependencias.
 
 Para montar la página web, ir al directorio principal del proyecto y correr los siguientes comandos:
 
-chmod -x ./run-app.sh
+chmod u+x ./run-app.sh
 ./run-app.sh
