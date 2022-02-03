@@ -12,6 +12,7 @@ Para montar la página web, ir al directorio principal del proyecto y correr los
 chmod u+x ./run-app.sh
 ./run-app.sh
 
+Se abrirá una ventana en el navegador con la página frontend. Quizás haya que esperar unos segundos y recargar porque hay que esperar a que compile la página.
 En caso de obtener un error al correr el .sh, seguir los siguientes pasos:
 
 Abrir una terminal en el directorio principal del proyecto, y correr estas líneas para instalar las dependencias (saltear si fueron instaladas con éxito):
