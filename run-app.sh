@@ -13,3 +13,6 @@ gnome-terminal -e '/bin/bash -c "cd todo-backend && npm run start" '
 
 #run frontend
 gnome-terminal -e '/bin/bash -c "cd frontend/ensolvers-to-do-frontend && npm run serve" '
+
+#open browser
+xdg-open http://localhost:8080
